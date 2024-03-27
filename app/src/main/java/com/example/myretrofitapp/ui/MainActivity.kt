@@ -17,6 +17,7 @@ import com.example.myretrofitapp.data.response.Restaurant
 import com.example.myretrofitapp.data.response.RestaurantResponse
 import com.example.myretrofitapp.data.retrofit.ApiConfig
 import com.example.myretrofitapp.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,6 +59,25 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.isLoading.observe(this){
             showLoading(it)
         }
+
+
+        // SnackBar
+        //mainViewModel.snackBar.observe(this){
+        //    Snackbar.make(window.decorView.rootView, it, Snackbar.LENGTH_SHORT).show()
+        //}
+
+        // SnackBar Dengan Event Wrapper
+        mainViewModel.snackBar.observe(this,{
+            it.getContentIfNotHandled().let { snackBarText ->
+                if (snackBarText != null) {
+                    Snackbar.make(
+                        window.decorView.rootView,
+                        snackBarText,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        })
 
 
         binding.btnSend.setOnClickListener { view ->

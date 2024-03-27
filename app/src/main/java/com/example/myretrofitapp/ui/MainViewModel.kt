@@ -9,6 +9,7 @@ import com.example.myretrofitapp.data.response.PostReviewResponse
 import com.example.myretrofitapp.data.response.Restaurant
 import com.example.myretrofitapp.data.response.RestaurantResponse
 import com.example.myretrofitapp.data.retrofit.ApiConfig
+import com.example.myretrofitapp.util.Event
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,6 +24,14 @@ class MainViewModel: ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+
+    // SnackBar
+    //private val _snackBar = MutableLiveData<String>()
+    //val snackBar: LiveData<String> = _snackBar
+
+    // SnackBar Dibungkus Pake Event Wrapper
+    private val _snackBar = MutableLiveData<Event<String>>()
+    val snackBar: LiveData<Event<String>> = _snackBar
 
     companion object{
         private const val   TAG = "MainViewModel"
@@ -76,6 +85,7 @@ class MainViewModel: ViewModel() {
                 val responseBody = response.body()
                 if (response.isSuccessful && responseBody != null){
                     _listReview.value = response.body()?.customerReviews
+                    _snackBar.value = Event(response.body()?.message.toString())
                 } else{
                     Log.e(TAG, "Error: ${response.message()}")
                 }
