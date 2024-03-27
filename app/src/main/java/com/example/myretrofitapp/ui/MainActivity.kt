@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    // Activity Ktx
+    private val mainViewModel by viewModels<MainViewModel>()
+
     companion object{
         private const val TAG = "MainActivity"
         private const val RESTAURANT_ID = "uewq1zg2zlskfw1e867"
@@ -39,11 +43,11 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        // Panggil MainViewModel nya
-        val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
-        mainViewModel.restaurant.observe(this){restaurant ->
-            setRestaurantData(restaurant)
-        }
+        // Panggil MainViewModel nya (Sekarang Pake Activity KTX)
+        //val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+        //mainViewModel.restaurant.observe(this){restaurant ->
+        //    setRestaurantData(restaurant)
+        //}
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvReview.layoutManager = layoutManager
